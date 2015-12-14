@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link href='http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+    <link href='{% static 'css/main.css' %}' rel='stylesheet' type='text/css'>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"
+    charset="utf-8"></script>
+
+
+    <title>Internet Store</title>
+</head>
+<body>
+<div class="top-bar">
+<div class="row">
+<div class="top-bar-left">
+<ul class="dropdown menu" data-dropdown-menu>
+<li class="menu-text"><a href="/">Store</a></li>
+<li class="has-submenu">
+<a href="#">Categories</a>
+<ul class="submenu menu vertical" data-submenu>
+{% for category in categories %}
+    <li><a href="{{ category.get_absolute_url }}">{{ category.category_title }}</a></li>
+{% endfor %}
+</ul>
+</li>
+{% if username %}
+            <li class="active"><a href="{% url 'cart' %}">Cart</a></li>
+            <li class="active"><a href="/auth/logout/">Log out({{ username }})</a></li>
+        {% else %}
+            <li class="active"><a href="/auth/login/">Log in</a></li>
+            <li class="active"><a href="/auth/register/">Registration</a></li>
+        {% endif %}
+</ul>
+</div>
+<div class="top-bar-right">
+<div class="row collapse">
+      {% if username %}
+    <form method="GET" action="{% url 'search' %}">
+    <div class="large-8 small-9 columns">
+      <input type="text" name="search" placeholder="Search product">
+    </div>
+    <div class="large-4 small-3 columns">
+      <button type="submit" class="alert button expand">Search</button>
+    </div></form>
+      {% endif %}
+  </div>
+</div>
+</div>
+</div>
+
+{% block catalog %}{% endblock %}
+{% block one_product %}{% endblock %}
+{% block login %}{% endblock %}
+{% block cart %}{% endblock %}
+
+<div class="row column">
+<hr>
+<ul class="menu">
+<li>Store</li>
+<li><a href="#">Home</a></li>
+<li><a href="#">About</a></li>
+<li><a href="#">Contact</a></li>
+<li class="float-right">Copyright 2015</li>
+</ul>
+</div>
+<script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>
+      $(document).foundation();
+    </script>
+</body>
+</html>

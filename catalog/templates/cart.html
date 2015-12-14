@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% block cart %}
+    <div class="row">
+    <table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>Cart</th>
+	</tr>
+    <tr>
+        <td>Title</td>
+        <td>Quantity</td>
+        <td>Cost</td>
+        <td>Price</td>
+        <td>Delete?</td>
+    </tr>
+        {% for row in cart %}
+	<tr>
+		<td><a href="{% url 'product' row.product_id %}">{{ row.product }}</a></td>
+		<td>{{ row.quantity }}</td>
+        <td>{{ row.cost }}</td>
+        <td>{{ row.price }}</td>
+        <td><a href="{% url 'del' row.id %}">X</a></td>
+	</tr>
+        {% endfor %}
+    </table>
+    <div class="center">
+    <form method="POST" action="{% url 'order' %}">
+        {% csrf_token %}
+        <div class="row">
+    <div class="small-8 columns">
+      <div class="row">
+        <div class="small-3 columns">
+          <label for="right-label" class="right inline">{{ email.label}}</label>
+        </div>
+        <div class="small-9 columns">
+          {{ email }}
+            <input class="button postfix" type="submit" value="Order">
+         </div>
+      </div>
+    </div>
+
+  </div>
+
+    </form>
+    </div>
+    </div>
+{% endblock %}

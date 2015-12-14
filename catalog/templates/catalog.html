@@ -1,0 +1,93 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% load imagekit %}
+{% block catalog %}
+<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+<ul class="orbit-container">
+<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+<li class="orbit-slide is-active">
+<a href="#1">
+<img src="{% static 'images/intel.png' %}" height="750" width="2000">
+</a>
+</li>
+</ul>
+</div>
+<div class="row column text-center">
+{% if category %}
+    <h2 id="1">In this category:</h2><hr>
+{% else %}
+    <h2 id="1">Our Newest Products</h2><hr>
+{% endif %}
+
+</div>
+    <div class="row small-up-2 large-up-4">
+      {% for product in newest_products %}
+        <div class="column">
+        {% thumbnail '300x400' product.product_img -- class="thumbnail"%}
+        <h5>{{ product.product_title }}</h5>
+        <p>{{ product.product_cost }} ₴</p>
+        <a href="{{ product.get_absolute_url }}" class="button expanded">More</a>
+        </div>
+    {% endfor %}
+    </div>
+{% if not category %}<hr>
+<div class="row column text-center">
+<h2>Some Other Cheap Products</h2>
+<hr>
+</div>
+    <div class="row small-up-2 medium-up-3 large-up-6">
+    {% for product in cheap_products %}
+        <div class="column">
+        {% thumbnail '300x400' product.product_img -- class="thumbnail"%}
+        <h5>{{ product.product_title }}</h5>
+        <p>{{ product.product_cost }} ₴</p>
+        <a href="{{ product.get_absolute_url }}" class="button expanded">More</a>
+        </div>
+    {% endfor %}
+    </div>
+    <hr>
+{% endif %}
+<div class="row">
+<h4>All Products</h4>
+{% for product in products %}<div class="medium-4 columns">
+<div class="media-object">
+<div class="media-object-section">
+{% thumbnail '100x100' product.product_img -- class="thumbnail" %}
+</div>
+<div class="media-object-section">
+<h5>{{ product.product_title }}</h5>
+<p>{{ product.product_cost }}₴</p>
+<a href="{{ product.get_absolute_url }}" class="button expanded">More</a>
+</div>
+</div></div>
+{% endfor %}
+
+
+</div>
+<center>
+{% if not category %}
+    <div class="pagination-centered">
+        <ul class="pagination">
+            {% if products.has_previous %}
+                <li class="arrow"><a href="/page/{{ albums.previous_page_number }}/">&laquo;</a></li>
+            {% else %}
+                <li class="arrow unavailable"><a href="">&laquo;</a></li>
+            {% endif %}
+            {% for page in products.paginator.page_range %}
+                {% if page == products.number %}
+                    <li class="current"><a href="/page/{{ page }}/">{{ page }}</a></li>
+                {% else %}
+                    <li><a href="/page/{{ page }}/">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if products.has_next %}
+                <li class="arrow"><a href="/page/{{ albums.next_page_number }}/">&raquo;</a></li>
+            {% else %}
+                <li class="arrow unavailable"><a href="">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+    </center>
+{% endblock %}

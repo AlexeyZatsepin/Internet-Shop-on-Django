@@ -1,0 +1,247 @@
+{% extends 'index.html' %}
+{%  block one_product %}
+{% load imagekit %}
+{% load staticfiles %}
+    <br>
+<div class="row columns">
+<nav aria-label="You are here:" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="/">Home</a></li>
+<li><a href="/categories/{{ product.product_category.id }}/">{{ product.product_category }}</a></li>
+<li>
+<span class="show-for-sr">Current: </span> {{ product.product_title }}
+</li>
+</ul>
+</nav>
+</div>
+
+<div class="row">
+<div class="medium-6 columns">
+{% thumbnail '650x350' product.product_img -- class="thumbnail" %}
+</div>
+<div class="medium-6 large-5 columns">
+<h3>{{ product.product_title }}</h3>
+<p> {{ product.product_short_discription }}</p>
+<p>{{ product.product_distributor }}</p>
+<p>{{ product.product_cost }}₴</p>
+{% if product.is_available %}
+    <form action="{% url 'add_to_card' product.id %}" method="POST">
+<div class="row">
+<div class="small-3 columns">
+<label for="middle-label" class="middle">Quantity</label>
+</div>
+    {% csrf_token %}
+<div class="small-9 columns">
+{{ cart_add_form.quantity }}
+</div>
+</div>
+<input type="submit" class="button large expanded" value="Add to cart">
+</form>
+{% else %}
+    <p>doesn't exist</p>
+{% endif %}
+</div>
+</div>
+{% if smart_phone %}
+    <hr>
+<div class="column row">
+
+<table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>Characteristics</th>
+	</tr>
+	<tr>
+		<td>Diagonal </td>
+		<td>{{ smart_phone.diagonal }}</td>
+	</tr>
+	<tr>
+		<td>Resolution</td>
+		<td>{{ smart_phone.display_resolution }}</td>
+	</tr>
+	<tr>
+		<td>OS</td>
+		<td>{{ smart_phone.operating_system }}</td>
+	</tr>
+	<tr>
+		<td>Processor</td>
+		<td>{{ smart_phone.processor }}</td>
+	</tr>
+    <tr>
+		<td>CPU</td>
+		<td>{{ smart_phone.cpu_frequency }}</td>
+	</tr>
+	<tr>
+		<td>RAM</td>
+		<td>{{ smart_phone.ram }}</td>
+	</tr>
+	<tr>
+		<td>HDD</td>
+		<td>{{ smart_phone.hdd }}</td>
+	</tr>
+    <tr>
+		<td>Quantity of Sim</td>
+		<td>{{ smart_phone.sim_quantity }}</td>
+	</tr>
+    <tr>
+		<td>4G</td>
+		<td>{{ smart_phone.support_4g | yesno }}</td>
+	</tr>
+    <tr>
+		<td>Resolution Main Camera</td>
+		<td>{{ smart_phone.resolution_main }}</td>
+	</tr>
+    <tr>
+		<td>Resolution Front Camera</td>
+		<td>{{ smart_phone.resolution_front }}</td>
+	</tr>
+    <tr>
+		<td>WIFI</td>
+		<td>{{ smart_phone.wifi | yesno }}</td>
+	</tr>
+    <tr>
+		<td>Bluetooth</td>
+		<td>{{ smart_phone.bluetooth | yesno }}</td>
+	</tr>
+    <tr>
+		<td>Color</td>
+		<td>{{ smart_phone.color }}</td>
+	</tr>
+</table>
+{% endif %}
+{% if notebook %}
+     <hr>
+    <table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>Characteristics</th>
+	</tr>
+	<tr>
+		<td>Diagonal </td>
+		<td>{{ notebook.diagonal }}</td>
+	</tr>
+	<tr>
+		<td>Resolution</td>
+		<td>{{ notebook.display_resolution }}</td>
+	</tr>
+	<tr>
+		<td>Surface</td>
+		<td>{{ notebook.surface }}</td>
+	</tr>
+    <tr>
+        <td>OS</td>
+        <td>{{ notebook.operating_system }}</td>
+    </tr>
+    <tr>
+        <td>Processor</td>
+        <td>{{ notebook.processor }}</td>
+    </tr>
+    <tr>
+        <td>CPU</td>
+        <td>{{ notebook.cpu_frequency }}</td>
+    </tr>
+    <tr>
+        <td>RAM</td>
+        <td>{{ notebook.ram}}</td>
+    </tr>
+    <tr>
+        <td>HDD</td>
+        <td>{{ notebook.hdd }}</td>
+    </tr>
+    <tr>
+        <td>Color</td>
+        <td>{{ notebook.color }}</td>
+    </tr>
+    <tr>
+        <td>Video Card</td>
+        <td>{{ notebook.video_card }}</td>
+    </tr>
+    <tr>
+        <td>Video Memory</td>
+        <td>{{ notebook.video_memory }}</td>
+    </tr>
+    </table>
+{% endif %}
+{% if flash %}
+     <hr>
+    <table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>Characteristics</th>
+	</tr>
+	<tr>
+		<td>Type </td>
+		<td>{{ flash.type }}</td>
+	</tr>
+	<tr>
+		<td>Memory</td>
+		<td>{{ flash.memory }}</td>
+	</tr>
+    </table>
+{% endif %}
+{% if tv %}
+    <hr>
+    <table class="simple-little-table" cellspacing='0'>
+	<tr>
+		<th>Characteristics</th>
+	</tr>
+	<tr>
+		<td>Diagonal </td>
+		<td>{{ tv.diagonal }}</td>
+	</tr>
+	<tr>
+		<td>Resolution</td>
+		<td>{{ tv.display_resolution }}</td>
+	</tr>
+	<tr>
+		<td>Surface</td>
+		<td>{{ tv.surface }}</td>
+	</tr>
+    <tr>
+        <td>Smart TV</td>
+        <td>{{ tv.smartTV }}</td>
+    </tr>
+    </table>
+{% endif %}
+<div class="column row">
+<hr>
+<ul class="tabs" data-tabs id="example-tabs">
+<li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Reviews</a></li>
+<li class="tabs-title"><a href="#panel2">Similar Products</a></li>
+</ul>
+<div class="tabs-content" data-tabs-content="example-tabs">
+<div class="tabs-panel is-active" id="panel1">
+<h4>Reviews</h4>
+{% for comment in comments %}
+<div class="media-object stack-for-small">
+<div class="media-object-section">
+<img class="thumbnail" src="http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png">
+</div>
+<div class="media-object-section">
+<h5> {{ comment.comment_author }}</h5>
+<p>{{ comment.comment_text }}</p>
+<p class="help-block">{{ comment.comment_date }}</p>
+</div>
+</div>
+{% endfor %}
+    {% if username %}
+    <form action="/add_comment/{{ product.id }}/" method="POST">
+{{ form }}{% csrf_token %}
+    <input type="submit" class="button" value="Add comment">
+    </form>
+    {% endif %}
+</div>
+
+<div class="tabs-panel " id="panel2">
+<div class="row medium-up-3 large-up-5">
+
+{% for other_product in other_products %}
+<div class="column">
+{% thumbnail '350x200' other_product.product_img -- class="thumbnail" %}
+<h5>{{ other_product.product_title }} <small><br>{{ other_product.product_cost }} UAH</small></h5>
+<p>{{ other_product.product_short_discription }}</p>
+<a href="{{ other_product.get_absolute_url }}" class="button hollow tiny expanded">See more</a>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
